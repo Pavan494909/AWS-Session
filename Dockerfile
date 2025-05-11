@@ -1,5 +1,5 @@
 # Our node app is based on `18-alpine` image 
-FROM node:18-alpine
+FROM node:19-alpine as stage1
 
 # Setting up the environment variables needed:
 ENV DOMAIN="http://localhost:3000" \
@@ -13,7 +13,9 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install
+COPY . .
 
+FROM stage1 as stage2
 COPY . .
 
 EXPOSE 3000
